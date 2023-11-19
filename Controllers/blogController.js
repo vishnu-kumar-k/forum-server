@@ -11,3 +11,13 @@ exports.upload=async(req,res)=>{
     }
 
 }
+exports.all=async(req,res)=>{
+    try{
+        const allBlogs=await BlogPost.find({});
+        return res.status(200).json({message:"User Created",feeds:allBlogs});
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({message:"Error in getting all blogs",error})
+    }
+}
