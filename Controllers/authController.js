@@ -1,4 +1,3 @@
-const bcrypt=require("bcrypt");
 const User=require("../Models/User");
 const jwt=require("jsonwebtoken")
 exports.signup=async(req,res)=>{
