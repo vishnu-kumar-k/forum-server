@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.use("/",routes);
 
-const port=process.env.PORT;
+const port=5050;
 app.listen(port,()=>{
     console.log(`Server Started at ${port}`);
 })
