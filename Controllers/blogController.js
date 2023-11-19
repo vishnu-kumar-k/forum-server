@@ -1,5 +1,5 @@
 const BlogPost=require("../Models/BlogPost");
-exports.upload=async()=>{
+exports.upload=async(req,res)=>{
     try{
         const newBlogPost=await BlogPost.create({
             ...req.body        });
