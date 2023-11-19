@@ -3,6 +3,7 @@ const jwt=require("jsonwebtoken")
 exports.signup=async(req,res)=>{
     try{
         console.log("Hitting")
+        console.log(req.body);
         const user=await User.findOne({email:req.body.email});
         if(user){
             return res.status(400).json({message:"user already exist"});
@@ -15,8 +16,8 @@ exports.signup=async(req,res)=>{
         return res.status(200).json({message:"User Created",details:newUser});
         
     }
-    catch(err){
-        return res.status(500).json({message:"Internal error",err});
+    catch(error){
+        return res.status(500).json({message:"Internal error",error});
     }
 
 }
