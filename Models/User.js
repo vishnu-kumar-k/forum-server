@@ -18,7 +18,7 @@ const userSchema= mongoose.Schema({
     phone:{
         type:String,
     },
-    userType:{
+    userTypes:{
         type:String,
         default:"Student"
     }
