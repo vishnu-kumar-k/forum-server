@@ -1,5 +1,6 @@
 const User=require("../Models/User");
 const jwt=require("jsonwebtoken")
+const bcrypt=require("bcrypt")
 exports.signup=async(req,res)=>{
     try{
         console.log("Hitting")
