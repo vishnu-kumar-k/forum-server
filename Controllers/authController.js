@@ -37,7 +37,7 @@ exports.login=async(req,res)=>{
         }
         const subject="New Login Found"
         const content=`<p> A new Device has been logged in to your account from  ${ipAddress} IP Address and from ${userAgent}</p>`
-        sendMail(email,content,subject);
+        sendMail(email,subject,content);
         return res.status(200).json({message:"Logged In",details:userDetails});
 
     }

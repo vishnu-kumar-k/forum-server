@@ -1,10 +1,11 @@
 const express=require("express");
 
 const routes=require("./Routes");
-
+const formData = require('express-form-data');
 const app=express();
 const cors = require('cors');
 const bodyparser = require('body-parser');
+app.use(formData.parse());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(
