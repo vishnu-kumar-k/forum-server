@@ -25,6 +25,7 @@ const UploadFile = (file,name,fileType) => {
   const fileContentType = mime.lookup(fileType);
 
   const fileExtension = mime.extension(fileContentType);
+  console.log(fileContentType);
   const fileName = `${Date.now().toString()}-${name}`;
   console.log(fileContentType);
   const params = {
