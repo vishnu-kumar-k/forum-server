@@ -16,7 +16,7 @@ const UploadFile = (file,name,fileType) => {
   console.log(file);
 
   const fileContent = Buffer.from(
-    image.replace(/^data:image\/\w+;base64,/, ''),
+    file.replace(/^data:(image\/\w+|application\/pdf);base64,/, ''),
     'base64'
   );
   
