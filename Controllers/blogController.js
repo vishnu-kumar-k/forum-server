@@ -8,7 +8,7 @@ exports.upload=async(req,res)=>{
         console.log(headerImage);
         console.log(headerImageType);
         if(!headerImage || !headerImageType)
-            res.status(400).json({message:"error need header image"})
+            return res.status(400).json({message:"error need header image"})
         const headerImageUrl=await UploadFile(headerImage,author,headerImageType);
         var footerImageUrl=null;
         if(footerImage && footerImageType)
