@@ -4,14 +4,19 @@ exports.upload=async(req,res)=>{
     try{
         console.log("Hitting");
         const {headerImage,footerImage,headerImageType,footerImageType, title,description,author,userId}=req.body;
+        console.log(author);
         console.log(headerImage);
         console.log(headerImageType);
+        if(!headerImage || !headerImageType)
+            res.status(400).json({message:"error need header image"})
         const headerImageUrl=await UploadFile(headerImage,author,headerImageType);
-        const footerImageUrl=await UploadFile(footerImage,author,footerImageType);
+        var footerImageUrl=null;
+        if(footerImage && footerImageType)
+          footerImageUrl=await UploadFile(footerImage,author,footerImageType);
         console.log(headerImageUrl);
         console.log(footerImageUrl);
         const newBlogPost=await BlogPost.create({
-            title,description,author,userId,headerImageUrl,footerImageUrl        });
+            title,description,author,userId,headerImageUrl,footerImageUrl});
         return res.status(200).json({message:"User Created",details:newBlogPost});
     }
     catch(error){

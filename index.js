@@ -2,22 +2,27 @@ const express=require("express");
 
 const routes=require("./Routes");
 const formData = require('express-form-data');
+const cookieParser = require('cookie-parser');
 const app=express();
 const cors = require('cors');
+require("./db")
+
 const bodyparser = require('body-parser');
+
+app.use(express.json());
 app.use(formData.parse());
 app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({extended: true}));
+app.use(cookieParser());
 app.use(
     cors(
         {
             origin:"*",
+            credentials:true
         }
     )
   );
-require("./db")
+
 require("dotenv").config()
-app.use(express.json());
 
 
 app.use("/",routes);
