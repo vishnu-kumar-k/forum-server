@@ -16,7 +16,7 @@ const UploadFile = (file,name,fileType) => {
   console.log(file);
 
   const fileContent = Buffer.from(
-    file.replace(/^data:(image\/\w+|application\/pdf);base64,/, ''),
+    image.replace(/^data:image\/\w+);base64,/, ''),
     'base64'
   );
   
@@ -26,7 +26,7 @@ const UploadFile = (file,name,fileType) => {
 
   const fileExtension = mime.extension(fileContentType);
   console.log(fileContentType);
-  const fileName = `${Date.now().toString()}-${name}.${fileExtension}`;
+  const fileName = `${Date.now().toString()}-${fileType}`;
   console.log(fileContentType);
   const params = {
     Bucket: process.env.bucket.split("****").join(""),
