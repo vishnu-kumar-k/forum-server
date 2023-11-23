@@ -2,7 +2,10 @@ const BlogPost=require("../Models/BlogPost");
 const UploadFile = require("../s3");
 exports.upload=async(req,res)=>{
     try{
+        console.log("Hitting");
         const {headerImage,footerImage,headerImageType,footerImageType, title,description,author,userId}=req.body;
+        console.log(headerImage);
+        console.log(headerImageType);
         const headerImageUrl=await UploadFile(headerImage,author,headerImageType);
         const footerImageUrl=await UploadFile(footerImage,author,footerImageType);
         console.log(headerImageUrl);
