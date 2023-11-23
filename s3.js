@@ -1,5 +1,7 @@
 const AWS = require('aws-sdk');
 const mime = require('mime-types');
+require("dotenv").config()
+
 const s3 = new AWS.S3({
   accessKeyId: process.env.a.split("90").join(""),
   secretAccessKey: process.env.s.split("").reverse().join("").split("66").join(""),

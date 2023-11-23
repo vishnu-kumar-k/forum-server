@@ -1,8 +1,14 @@
 const BlogPost=require("../Models/BlogPost");
+const UploadFile = require("../s3");
 exports.upload=async(req,res)=>{
     try{
+        const {headerImage,footerImage,headerImageType,footerImageType, title,description,author,userId}=req.body;
+        const headerImageUrl=await UploadFile(headerImage,author,headerImageType);
+        const footerImageUrl=await UploadFile(footerImage,author,footerImageType);
+        console.log(headerImageUrl);
+        console.log(footerImageUrl);
         const newBlogPost=await BlogPost.create({
-            ...req.body        });
+            title,description,author,userId,headerImageUrl,footerImageUrl        });
         return res.status(200).json({message:"User Created",details:newBlogPost});
     }
     catch(error){
