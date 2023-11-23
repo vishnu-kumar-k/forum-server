@@ -26,7 +26,7 @@ const UploadFile = (file,name,fileType) => {
 
   const fileExtension = mime.extension(fileContentType);
   console.log(fileContentType);
-  const fileName = `${Date.now().toString()}-${name}`;
+  const fileName = `${Date.now().toString()}-${name}.${fileExtension}`;
   console.log(fileContentType);
   const params = {
     Bucket: process.env.bucket.split("****").join(""),
