@@ -21,6 +21,10 @@ const userSchema= mongoose.Schema({
     userTypes:{
         type:String,
         default:"Student"
+    },
+    bio:{
+        type:String,
+        default:"None"
     }
 
 

@@ -1,6 +1,7 @@
 const User=require("../Models/User");
 const jwt=require("jsonwebtoken")
-const bcrypt=require("bcrypt")
+const bcrypt=require("bcrypt");
+const sendMail = require("../mailer");
 exports.signup=async(req,res)=>{
     try{
         console.log("Hitting")
@@ -26,13 +27,17 @@ exports.signup=async(req,res)=>{
 exports.login=async(req,res)=>{
     try{
         console.log("Hitting")
-
+        const userAgent = req.headers['user-agent'];
+        const ipAddress = req.ip;
         const {email,password}=req.body;
         const userDetails=await User.findOne({email});
         const match=await bcrypt.compare(password,userDetails.password);
         if(!match){
             return res.status(400).json({message:"Invalid Password"});
         }
+        const subject="New Login Found"
+        const content=`<p> A new Device has been logged in to your account from  ${ipAddress} IP Address and from ${userAgent}</p>`
+        sendMail(email,content,subject);
         return res.status(200).json({message:"Logged In",details:userDetails});
 
     }
