@@ -72,7 +72,7 @@ exports.addFavourite = async (req, res) => {
         const { userId, postId } = req.body;
 
         // Check if the blog post exists
-        const blogPost = await BlogPost.findById(postId);
+        const blogPost = await BlogPost.findOne({_id:postId});
         if (!blogPost) {
             return res.status(404).json({ message: "Blog post not found" });
         }
