@@ -11,6 +11,5 @@ router.post("/myblogs",myBlogs);
 router.post("/removeblog",removeBlog);
 router.post("/addfavourite",addFavourite);
 router.post("/removefavourite",removeFavorite);
-
 router.post("/getfavourites",getFavouriteBlogs);
 module.exports=router;

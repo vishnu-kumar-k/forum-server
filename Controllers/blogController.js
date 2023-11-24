@@ -73,8 +73,10 @@ exports.addFavourite = async (req, res) => {
 
         // Check if the blog post exists
         const blogPost = await BlogPost.findOne({_id:postId});
+        console.log(blogPost);
+
         if (!blogPost) {
-            return res.status(404).json({ message: "Blog post not found" });
+            return res.status(400).json({ message: "Blog post not found" });
         }
 
         // Add the postId to the user's favoriteBlogs array
@@ -126,3 +128,4 @@ exports.getFavouriteBlogs = async (req, res) => {
         res.status(500).json({ message: "Error in getting favorite blogs", error });
     }
 }
+
