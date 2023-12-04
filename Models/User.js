@@ -37,11 +37,21 @@ const userSchema = mongoose.Schema({
     }],
     favoriteBlogs: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'BlogPost' // Assuming you have a Blog model
+        ref: 'BlogPost'
     }],
     posts: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'BlogPost' // Assuming you have a Post model
+        ref: 'BlogPost'
+    }],
+    notifications: [{
+        message: {
+            type: String,
+            required: true
+        },
+        date: {
+            type: Date,
+            default: Date.now
+        }
     }]
 });
 
