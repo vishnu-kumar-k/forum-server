@@ -80,9 +80,12 @@ exports.follow = async (req, res) => {
     user.following.push(personId);
     person.followers.push(userId);
 
+    // Fetch the name from the person object
+    const personName = person.name;
+
     // Add a notification to the user's notifications array
     user.notifications.push({
-      message: `${person.name} started following you.`,
+      message: `${personName} started following you.`,
       date: new Date(),
     });
 
@@ -95,6 +98,7 @@ exports.follow = async (req, res) => {
     return res.status(500).json({ message: 'Something went wrong', error });
   }
 };
+
   
   exports.unfollow = async (req, res) => {
     try {
@@ -163,7 +167,7 @@ exports.follow = async (req, res) => {
       }
   
       // Retrieve notifications for the user
-      const notifications = user.notifications;
+      const notifications = user.notifications; 
   
       return res.status(200).json({ notifications });
     } catch (error) {
