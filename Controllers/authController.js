@@ -81,10 +81,10 @@ exports.follow = async (req, res) => {
     person.followers.push(userId);
 
     // Fetch the name from the person object
-    const personName = person.name;
+    const personName = person.username;
     console.log(personName);
     // Add a notification to the user's notifications array
-    user.notifications.push({
+    person.notifications.push({
       message: `${personName} started following you.`,
       date: new Date(),
     });
