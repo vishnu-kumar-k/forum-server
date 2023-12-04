@@ -82,7 +82,7 @@ exports.follow = async (req, res) => {
 
     // Fetch the name from the person object
     const personName = person.name;
-
+    console.log(personName);
     // Add a notification to the user's notifications array
     user.notifications.push({
       message: `${personName} started following you.`,
