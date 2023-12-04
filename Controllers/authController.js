@@ -176,3 +176,41 @@ exports.follow = async (req, res) => {
     }
   };
   
+  exports.updateUserDetails = async (req, res) => {
+    try {
+      const userId = req.body.userId;
+      const username = req.body.username;
+      const dob = req.body.DOB;
+      const bio = req.body.bio;
+      const phone = req.body.phone;
+
+      const user = await User.findById(userId);
+  
+      if (!user) {
+        throw new Error('User not found');
+      }
+  
+      // Update user details based on newDetails
+      if (username) {
+        user.username = username;
+      }
+      if (dob) {
+        user.DOB = dob;
+      }
+      if (bio) {
+        user.bio = bio;
+      }
+      if (phone) {
+        user.phone = phone;
+      }
+      // Add other conditions for other fields if needed
+  
+      // Save the updated user
+      await user.save();
+  
+      return res.json({ success: true, message: 'User details updated successfully' });
+    } catch (error) {
+      console.error('Error updating user details:', error);
+      return res.status(500).json({ success: false, message: 'Error updating user details', error: error.message });
+    }
+};
