@@ -37,6 +37,18 @@ const blogPostSchema = new mongoose.Schema({
     ref: 'User', // Reference to the User model
     required: true,
   },
+  notifications: [
+    {
+      message: {
+        type: String,
+        required: true,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 }, { timestamps: true }); 
 
 const BlogPost = mongoose.model('BlogPost', blogPostSchema);
