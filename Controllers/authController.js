@@ -2,6 +2,7 @@ const User=require("../Models/User");
 const jwt=require("jsonwebtoken")
 const bcrypt=require("bcrypt");
 const sendMail = require("../mailer");
+
 exports.signup=async(req,res)=>{
     try{
         console.log("Hitting")
@@ -59,35 +60,41 @@ exports.logout=async(req,res)=>{
 }
 
 exports.follow = async (req, res) => {
-    try {
-      const { userId, personId } = req.body;
-  
-      // Check if the user and person exist
-      const user = await User.findById(userId);
-      const person = await User.findById(personId);
-  
-      if (!user || !person) {
-        return res.status(404).json({ message: 'User or person not found' });
-      }
-  
-      // Check if the user is already following the person
-      if (user.following.includes(personId)) {
-        return res.status(400).json({ message: 'Already following the person' });
-      }
-  
-      // Update the user's following array and person's followers array
-      user.following.push(personId);
-      person.followers.push(userId);
-  
-      await user.save();
-      await person.save();
-  
-      return res.status(200).json({ message: 'Followed successfully' });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({ message: 'Something went wrong', error });
+  try {
+    const { userId, personId } = req.body;
+
+    // Check if the user and person exist
+    const user = await User.findById(userId);
+    const person = await User.findById(personId);
+
+    if (!user || !person) {
+      return res.status(404).json({ message: 'User or person not found' });
     }
-  };
+
+    // Check if the user is already following the person
+    if (user.following.includes(personId)) {
+      return res.status(400).json({ message: 'Already following the person' });
+    }
+
+    // Update the user's following array and person's followers array
+    user.following.push(personId);
+    person.followers.push(userId);
+
+    // Add a notification to the user's notifications array
+    user.notifications.push({
+      message: `${person.name} started following you.`,
+      date: new Date(),
+    });
+
+    await user.save();
+    await person.save();
+
+    return res.status(200).json({ message: 'Followed successfully' });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Something went wrong', error });
+  }
+};
   
   exports.unfollow = async (req, res) => {
     try {
@@ -141,3 +148,27 @@ exports.follow = async (req, res) => {
       return res.status(500).json({ message: 'Something went wrong', error });
     }
   };
+
+
+
+  exports.getNotifications = async (req, res) => {
+    try {
+      const userId = req.body.userId;
+  
+      // Check if the user exists
+      const user = await User.findById(userId);
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Retrieve notifications for the user
+      const notifications = user.notifications;
+  
+      return res.status(200).json({ notifications });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Something went wrong', error });
+    }
+  };
+  
