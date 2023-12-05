@@ -177,6 +177,7 @@ exports.follow = async (req, res) => {
   };
   
   exports.updateUserDetails = async (req, res) => {
+    console.log(req.body);
     try {
       const userId = req.body.userId;
       const username = req.body.username;
