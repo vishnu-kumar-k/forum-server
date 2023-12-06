@@ -20,12 +20,10 @@ const blogPostSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    likes: [{
-        userId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-        }
-    }],
+    likes: {
+        type: [String], // Array of strings
+        default: [],    // Default value is an empty array
+    },
     comments: [{
         userId: {
             type: mongoose.Schema.Types.ObjectId,

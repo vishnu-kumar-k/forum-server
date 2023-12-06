@@ -147,8 +147,10 @@ exports.getFavouriteBlogs = async (req, res) => {
     }
 }
 
-exports.removeLike=async(req,res)=>{
-    const {postId,userId}=req.body;
+
+exports.addLike = async (req, res) => {
+    const { postId, userId } = req.body;
+
     try {
         // Check if the post exists
         const blogPost = await BlogPost.findById(postId);
@@ -156,25 +158,23 @@ exports.removeLike=async(req,res)=>{
             throw new Error("Blog post not found");
         }
 
-        // Find the index of the like to be removed
-        const likeIndex = blogPost.likes.findIndex(like => like.userId.toString() === userId.toString());
-        if (likeIndex === -1) {
-            throw new Error("Like not found");
-        }
+        
 
-        // Remove the like from the blog post
-        blogPost.likes.splice(likeIndex, 1);
+        // Add the new like to the blog post
+        blogPost.likes.push(userId);
+
         await blogPost.save();
 
-        return { success: true, message: "Like removed successfully" };
+        return res.status(200).json({ success: true, message: "Like added successfully" });
     } catch (error) {
-        return { success: false, message: error.message };
+        return res.status(400).json({ success: false, message: error.message });
     }
-    
-}
+};
 
-exports.addLike = async (req, res) => {
+
+exports.removeLike = async (req, res) => {
     const { postId, userId } = req.body;
+
     try {
         // Check if the post exists
         const blogPost = await BlogPost.findById(postId);
@@ -183,17 +183,19 @@ exports.addLike = async (req, res) => {
         }
 
         // Check if the user has already liked the post
-        const existingLike = blogPost.likes.find(like => like.userId.toString() === userId.toString());
-        if (existingLike) {
-            throw new Error("User has already liked the post");
+        const existingLikeIndex = blogPost.likes.indexOf(userId);
+
+        if (existingLikeIndex === -1) {
+            throw new Error("Like not found");
         }
 
-        // Add the new like to the blog post
-        blogPost.likes.push({ userId });
+        // Remove the like from the blog post
+        blogPost.likes.splice(existingLikeIndex, 1);
+
         await blogPost.save();
 
-        return { success: true, message: "Like added successfully" };
+        return res.status(200).json({ success: true, message: "Like removed successfully" });
     } catch (error) {
-        return { success: false, message: error.message };
+        return res.status(400).json({ success: false, message: error.message });
     }
 };
