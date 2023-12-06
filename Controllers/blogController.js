@@ -147,3 +147,53 @@ exports.getFavouriteBlogs = async (req, res) => {
     }
 }
 
+exports.removeLike=async(req,res)=>{
+    const {postId,userId}=req.body;
+    try {
+        // Check if the post exists
+        const blogPost = await BlogPost.findById(postId);
+        if (!blogPost) {
+            throw new Error("Blog post not found");
+        }
+
+        // Find the index of the like to be removed
+        const likeIndex = blogPost.likes.findIndex(like => like.userId.toString() === userId.toString());
+        if (likeIndex === -1) {
+            throw new Error("Like not found");
+        }
+
+        // Remove the like from the blog post
+        blogPost.likes.splice(likeIndex, 1);
+        await blogPost.save();
+
+        return { success: true, message: "Like removed successfully" };
+    } catch (error) {
+        return { success: false, message: error.message };
+    }
+    
+}
+
+exports.addLike = async (req, res) => {
+    const { postId, userId } = req.body;
+    try {
+        // Check if the post exists
+        const blogPost = await BlogPost.findById(postId);
+        if (!blogPost) {
+            throw new Error("Blog post not found");
+        }
+
+        // Check if the user has already liked the post
+        const existingLike = blogPost.likes.find(like => like.userId.toString() === userId.toString());
+        if (existingLike) {
+            throw new Error("User has already liked the post");
+        }
+
+        // Add the new like to the blog post
+        blogPost.likes.push({ userId });
+        await blogPost.save();
+
+        return { success: true, message: "Like added successfully" };
+    } catch (error) {
+        return { success: false, message: error.message };
+    }
+};
