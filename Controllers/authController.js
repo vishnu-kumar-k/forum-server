@@ -144,7 +144,7 @@ exports.follow = async (req, res) => {
       }
   
       // Populate the followers array with user details
-      const followers = await User.find({ _id: { $in: user.followers } });
+      const followers = await User.find({ _id: { $in: user.following } });
   
       return res.status(200).json({ followers });
     } catch (error) {
