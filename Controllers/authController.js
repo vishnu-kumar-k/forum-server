@@ -144,6 +144,26 @@ exports.follow = async (req, res) => {
       }
   
       // Populate the followers array with user details
+      const followers = await User.find({ _id: { $in: user.followers } });
+  
+      return res.status(200).json({ followers });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Something went wrong', error });
+    }
+  };
+  exports.getFollowing = async (req, res) => {
+    try {
+      const userId = req.body.userId;
+  
+      // Check if the user exists
+      const user = await User.findById(userId);
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Populate the followers array with user details
       const followers = await User.find({ _id: { $in: user.following } });
   
       return res.status(200).json({ followers });
