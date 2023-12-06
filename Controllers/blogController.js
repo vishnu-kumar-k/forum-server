@@ -199,3 +199,25 @@ exports.removeLike = async (req, res) => {
         return res.status(400).json({ success: false, message: error.message });
     }
 };
+exports.addcomment=async (req, res) => {
+    
+    const { userId, comment,postId } = req.body;
+
+    try {
+        // Check if the post exists
+        const blogPost = await BlogPost.findById(postId);
+        if (!blogPost) {
+            return res.status(404).json({ success: false, message: 'Blog post not found' });
+        }
+
+        // Add the comment to the blog post
+        blogPost.comments.push({ userId, comment });
+
+        // Save the updated post
+        await blogPost.save();
+
+        return res.status(201).json({ success: true, message: 'Comment added successfully' });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+}

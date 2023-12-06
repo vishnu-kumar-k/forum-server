@@ -1,5 +1,5 @@
 const express=require("express");
-const { upload, all, myBlogs,removeBlog, addFavourite, getFavouriteBlogs, removeFavorite, addLike, removeLike } = require("../Controllers/blogController");
+const { upload, all, myBlogs,removeBlog, addFavourite, getFavouriteBlogs, removeFavorite, addLike, removeLike, addcomment } = require("../Controllers/blogController");
 
 
 
@@ -14,4 +14,5 @@ router.post("/removefavourite",removeFavorite);
 router.post("/getfavourites",getFavouriteBlogs);
 router.post("/addlike",addLike);
 router.post("/removelike",removeLike);
+router.post("/addcomment",addcomment);
 module.exports=router;
