@@ -1,34 +1,52 @@
 const BlogPost=require("../Models/BlogPost");
 const User=require("../Models/User");
 const UploadFile = require("../s3");
-exports.upload=async(req,res)=>{
-    try{
+exports.upload = async (req, res) => {
+    try {
         console.log("Hitting");
-        const {headerImage,footerImage,headerImageType,footerImageType, title,description,author,userId}=req.body;
+        const { headerImage, footerImage, headerImageType, footerImageType, title, description, author, userId } = req.body;
         console.log(author);
         console.log(headerImage);
         console.log(headerImageType);
-        if(!headerImage || !headerImageType)
-            return res.status(400).json({message:"error need header image"})
-        const headerImageUrl=await UploadFile(headerImage,author,headerImageType);
-        var footerImageUrl=null;
-        if(footerImage && footerImageType)
-          footerImageUrl=await UploadFile(footerImage,author,footerImageType);
+        if (!headerImage || !headerImageType)
+            return res.status(400).json({ message: "error need header image" });
+
+        const headerImageUrl = await UploadFile(headerImage, author, headerImageType);
+        var footerImageUrl = null;
+        if (footerImage && footerImageType)
+            footerImageUrl = await UploadFile(footerImage, author, footerImageType);
+
         console.log(headerImageUrl);
         console.log(footerImageUrl);
-        const newBlogPost=await BlogPost.create({
-            title,description,author,userId,headerImageUrl,footerImageUrl});
+
+        const newBlogPost = await BlogPost.create({
+            title, description, author, userId, headerImageUrl, footerImageUrl
+        });
 
         await User.findByIdAndUpdate(userId, { $push: { posts: newBlogPost._id } });
 
-        return res.status(200).json({message:"User Created",details:newBlogPost});
-    }
-    catch(error){
-        console.log(error);
-        res.status(500).json({message:"Error in upload",error})
-    }
+        // Fetch the followers of the user who uploaded the blog post
+        const user = await User.findById(userId).populate('followers');
 
-}
+        // Create notifications for each follower
+        for (const follower of user.followers) {
+            await User.findByIdAndUpdate(follower._id, {
+                $push: {
+                    notifications: {
+                        message: `New blog post by ${author}: ${title}`,
+                        date: new Date()
+                    }
+                }
+            });
+        }
+
+        return res.status(200).json({ message: "Blog post created", details: newBlogPost });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error in upload", error });
+    }
+};
+
 exports.all=async(req,res)=>{
     try{
         const allBlogs=await BlogPost.find({});
