@@ -1,5 +1,5 @@
 const express=require("express");
-const { signup, login, follow, unfollow, getFollowers, getNotifications, updateUserDetails, getFollowing } = require("../Controllers/authController");
+const { signup, login, follow, unfollow, getFollowers, getNotifications, updateUserDetails, getFollowing, getProfile } = require("../Controllers/authController");
 
 
 
@@ -13,5 +13,6 @@ router.post("/getfollowers",getFollowers);
 router.post("/getfollowing",getFollowing);
 router.post('/notifications',getNotifications)
 router.post('/updateprofile',updateUserDetails);
+router.post('/getprofile',getProfile);
 
 module.exports=router;

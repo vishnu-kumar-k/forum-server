@@ -235,3 +235,22 @@ exports.follow = async (req, res) => {
       return res.status(500).json({ success: false, message: 'Error updating user details', error: error.message });
     }
 };
+
+
+exports.getProfile = async (req, res) => {
+  const userId = req.body.userId; // Assuming userId is passed as a route parameter
+
+  try {
+    // Find the user by userId
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Return the user details
+    return res.status(200).json({ success: true, user });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
