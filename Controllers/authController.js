@@ -212,16 +212,16 @@ exports.follow = async (req, res) => {
       }
   
       // Update user details based on newDetails
-      if (username) {
+      if (username.length) {
         user.username = username;
       }
-      if (dob) {
+      if (dob.length) {
         user.DOB = dob;
       }
-      if (bio) {
+      if (bio.length) {
         user.bio = bio;
       }
-      if (phone) {
+      if (phone.length) {
         user.phone = phone;
       }
       // Add other conditions for other fields if needed
