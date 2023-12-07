@@ -201,7 +201,7 @@ exports.removeLike = async (req, res) => {
 };
 exports.addcomment=async (req, res) => {
     
-    const { userId, comment,postId } = req.body;
+    const { userId, comment,postId,username } = req.body;
 
     try {
         // Check if the post exists
@@ -211,7 +211,7 @@ exports.addcomment=async (req, res) => {
         }
 
         // Add the comment to the blog post
-        blogPost.comments.push({ userId, comment });
+        blogPost.comments.push({ userId, comment,username });
 
         // Save the updated post
         await blogPost.save();
