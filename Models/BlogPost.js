@@ -24,6 +24,10 @@ const blogPostSchema = new mongoose.Schema({
         type: [String], // Array of strings
         default: [],    // Default value is an empty array
     },
+    date:{
+        type:Date,
+        default:Date.now,
+    },
     comments: [{
         userId: {
             type: mongoose.Schema.Types.ObjectId,
