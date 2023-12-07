@@ -216,7 +216,7 @@ exports.addcomment=async (req, res) => {
         // Save the updated post
         await blogPost.save();
 
-        return res.status(201).json({ success: true, message: 'Comment added successfully' });
+        return res.status(201).json({ success: true, message: 'Comment added successfully  ' });
     } catch (error) {
         return res.status(500).json({ success: false, message: error.message });
     }
