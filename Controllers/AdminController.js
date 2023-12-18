@@ -116,7 +116,7 @@ exports.GetUsers=async (req, res) => {
   exports.DeletePost=async (req, res) => {
     try {
         const postId = req.body.postId;
-
+        console.log(postId)
         // Check if the blog post exists
         const existingPost = await BlogPost.findById(postId);
         if (!existingPost) {
